@@ -1,0 +1,79 @@
+.brandShoutout {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.8125rem; /* 13px converted to rem */
+    background-color: var(--secondary-background, #f0f0f0);
+    color: var(--text-primary, #333);
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.9125rem;
+}
+
+.brandShoutout p {
+    font-size: 0.875rem; /* 14px converted to rem */
+    margin: 0;
+}
+
+.agencyName {
+    color: var(
+        --primary-accent,
+        #007bff
+    ); /* Default blue, change to match brand */
+    font-weight: 700;
+}
+
+.createLink {
+    display: block;
+    margin-top: 0.3125rem; /* 5px converted to rem */
+    color: var(--cta-color, #28a745); /* Default green for CTA */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease-in-out;
+}
+
+.createLink:hover {
+    text-decoration: underline;
+    color: var(--cta-hover, #218838); /* Slightly darker green on hover */
+}
+
+/* Positioning */
+.top {
+    /* padding: 1rem;
+    width: 100%;
+    margin: 0; */
+    position: absolute;
+    top: 0;
+    /* width: 100%; */
+    
+}
+
+.bottom {
+    /* padding: 1rem;
+    width: 100%;
+    margin: 0; */
+    position: static;
+    bottom: 0;
+}
+
+/* Hide Button for Top Shoutout */
+.hideButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary, #666);
+    font-size: 1rem; /* More scalable */
+    cursor: pointer;
+    margin-right: 0.525rem;
+
+    /* position: absolute; */
+    /* top: 0.2rem;
+    right: 1rem; */
+    /* transition: opacity 0.3s ease-in-out; */
+}
+
+.hideButton:hover {
+    opacity: 0.7;
+}

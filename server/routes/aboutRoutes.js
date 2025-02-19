@@ -8,6 +8,6 @@ const router = express.Router();
 router.get("/", getAbout); // Public: Fetch the About section
 router.post("/", authenticate, createAbout); // Private: Create a new About section
 router.put("/", authenticate, updateAbout); // Private: Update the About section
-router.delete("/", authenticate, deleteAbout); // Private: Delete the About section
+router.delete("/", authenticate, deleteAbout); // Private: Delete the About section 
 
 export default router;

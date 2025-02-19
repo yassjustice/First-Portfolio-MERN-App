@@ -1,0 +1,130 @@
+/* App.css */
+
+/* Base styles for layout, spacing, and typography */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 36px; /* Section Title */
+  color: var(--text-color);
+}
+
+h2 {
+  font-size: 28px; /* Subtitle */
+  color: var(--text-color);
+}
+
+p {
+  font-size: 18px; /* Body text */
+  color: var(--text-color);
+}
+
+small {
+  font-size: 14px; /* Small labels */
+  color: var(--text-color);
+}
+
+/* Navbar and Buttons (Consistent and Clear) */
+.navbar,
+button {
+  font-size: 16px;
+}
+
+/* button {
+  background-color: var(--accent-green);
+  color: var(--background-color);
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:focus,
+button:hover {
+  background-color: var(--accent-green);
+  opacity: 0.9;
+} */
+
+/* Section Styling */
+section {
+  margin: 20px 0;
+}
+
+/* Header Styles for pages */
+header {
+  margin-bottom: 40px;
+}
+
+/* Light Mode */
+[data-theme="light"] {
+  --background-color: #F5F5F5; /* Background light grey */
+  --text-color: #000000; /* Dark text */
+  --accent-green: #4CAF50; /* Soft green for buttons and highlights */
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --background-color: #1A1A1A; /* Background dark grey */
+  --text-color: #FFFFFF; /* Light text */
+  --accent-green: #4CAF50; /* Soft green for buttons and highlights */
+}
+/* In App.css or index.css */
+
+/* Form Input Fields */
+input,
+textarea {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent-green);
+  outline: none;
+}
+
+/* Cards/Containers (Reusable for Cards and Panels) */
+.card,
+.container {
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.card:hover,
+.container:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+footer {
+  background-color: var(--background-color);
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer p {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* Highlight Text */
+.highlight {
+  color: var(--accent-green);
+  font-weight: bold;
+}

@@ -1,0 +1,25 @@
+.navbar {
+    background-color: var(--primary-dark-mode);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navLinks {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+  }
+  
+  .navItem {
+    margin-left: 20px;
+    font-size: 18px;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  
+  .navItem:hover {
+    color: var(--accent-green);
+  }
+  

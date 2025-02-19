@@ -1,0 +1,19 @@
+/* Home Page Layout */
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    /* justify-content: space-between; */
+  }
+  
+  /* Responsive container */
+  @media (max-width: 768px) {
+    .home {
+      padding: 0 1rem;
+    }
+  }
+  

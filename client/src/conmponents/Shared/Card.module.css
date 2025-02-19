@@ -1,0 +1,23 @@
+.card {
+    background-color: var(--background-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+  }
+  
+  .cardTitle {
+    font-size: 24px;
+    color: var(--text-color);
+    margin-bottom: 10px;
+  }
+  
+  .cardDescription {
+    font-size: 18px;
+    color: var(--text-color);
+  }
+  
+  .card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  

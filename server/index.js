@@ -2,7 +2,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import morgan from "morgan";
 import connectDB from "./config/db.js";
 import routes from "./routes/index.js"; // Single entry point for all routes
 
@@ -13,7 +12,6 @@ connectDB();
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(morgan("dev"));
 
 // Routes
 app.use("/api", routes); // All API routes are handled inside routes/index.js

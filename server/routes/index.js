@@ -6,8 +6,11 @@ import heroRoutes from "./heroRoutes.js";
 import interestRoutes from "./interestRoutes.js";
 import projectRoutes from "./projectRoutes.js";
 import userRoutes from "./userRoutes.js";
+import nahRoutes from "./nahRoutes.js";
 
 const router = express.Router();
+
+router.use("/", nahRoutes)
 
 // Public Routes
 router.use("/about", aboutRoutes);

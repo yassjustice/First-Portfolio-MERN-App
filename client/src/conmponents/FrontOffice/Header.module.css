@@ -1,0 +1,65 @@
+/* Header.module.css */
+
+/* Header styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--primary-background);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  /* Logo section */
+  .logo h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: 600;
+  }
+  
+  /* Navbar styling */
+  .nav {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .navLink {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .navLink:hover {
+    color: var(--accent-green);
+  }
+  
+  /* Theme toggle button */
+  .themeToggle {
+    display: flex;
+    align-items: center;
+  }
+  
+  .toggleButton {
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: var(--accent-green);
+    color: var(--background-color);
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggleButton:hover {
+    background-color: var(--sec-accent-green);
+  }
+  

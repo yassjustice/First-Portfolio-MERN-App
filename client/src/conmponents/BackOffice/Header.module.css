@@ -1,0 +1,114 @@
+/* Header.module.css */
+
+/* Header Base Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: all 0.3s ease;
+    background-color: var(--primary-background);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header .logo {
+    font-size: 24px;
+    color: var(--primary-text-color);
+  }
+  
+  .header .logoLink {
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .nav {
+    display: flex;
+  }
+  
+  .nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+  }
+  
+  .navItem {
+    margin-left: 20px;
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+  
+  .navItem:hover {
+    color: var(--accent-color);
+  }
+  
+  /* Dark Mode Styles */
+  .dark {
+    background-color: var(--primary-dark-background);
+    color: var(--primary-text-color);
+  }
+  
+  .dark .logoLink {
+    color: var(--primary-text-color);
+  }
+  
+  .dark .navItem {
+    color: var(--primary-text-color);
+  }
+  
+  .dark .navItem:hover {
+    color: var(--accent-color);
+  }
+  
+  .dark .toggleButton {
+    background: none;
+    border: none;
+    color: var(--primary-text-color);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .dark .toggleButton:hover {
+    color: var(--accent-color);
+  }
+  
+  /* Light Mode Styles */
+  .light {
+    background-color: var(--primary-background);
+    color: var(--primary-text-color);
+  }
+  
+  .light .logoLink {
+    color: var(--primary-text-color);
+  }
+  
+  .light .navItem {
+    color: var(--primary-text-color);
+  }
+  
+  .light .navItem:hover {
+    color: var(--accent-color);
+  }
+  
+  .light .toggleButton {
+    background: none;
+    border: none;
+    color: var(--primary-text-color);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .light .toggleButton:hover {
+    color: var(--accent-color);
+  }
+  
