@@ -1,11 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "./context/AuthContext";
 
 const PrivateRoute = () => {
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
 
-    return user ? <Outlet /> : <Navigate to="/" />;
+    if (loading) {
+        return <p>Loading...</p>; // Prevent redirecting while loading
+    }
+
+    return user ? <Outlet /> : <Navigate to="/loginpage" />;
 };
 
 export default PrivateRoute;

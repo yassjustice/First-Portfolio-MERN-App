@@ -1,31 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 import ThemeContext from '../../context/ThemeContext';
 import { useContext } from 'react';
 
 const Sidebar = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext); // Access theme and toggle from ThemeContext
+  const { theme } = useContext(ThemeContext); // Access theme from ThemeContext
+  const location = useLocation(); // Get current route
 
   return (
     <div className={`${styles.sidebar} ${theme === 'dark' ? styles.dark : styles.light}`}>
       <div className={styles.logo}>
-        {/* You can replace this with your app's logo */}
         <h2>My App</h2>
       </div>
       <nav className={styles.nav}>
         <ul>
           <li>
-            <Link to="/dashboard" className={styles.navItem}>Dashboard</Link>
+            <Link to="/backoffice/dashboard" 
+              className={`${styles.navItem} ${location.pathname === "/backoffice/dashboard" ? styles.active : ""}`}>
+              Dashboard
+            </Link>
           </li>
           <li>
-            <Link to="/projects" className={styles.navItem}>Projects</Link>
+            <Link to="/backoffice/projects" 
+              className={`${styles.navItem} ${location.pathname === "/backoffice/projects" ? styles.active : ""}`}>
+              Projects
+            </Link>
           </li>
           <li>
-            <Link to="/users" className={styles.navItem}>Users</Link>
+            <Link to="/backoffice/users" 
+              className={`${styles.navItem} ${location.pathname === "/backoffice/users" ? styles.active : ""}`}>
+              Users
+            </Link>
           </li>
           <li>
-            <Link to="/settings" className={styles.navItem}>Settings</Link>
+            <Link to="/backoffice/settings" 
+              className={`${styles.navItem} ${location.pathname === "/backoffice/settings" ? styles.active : ""}`}>
+              Settings
+            </Link>
           </li>
         </ul>
       </nav>

@@ -1,0 +1,135 @@
+/* styles/Projects.module.css */
+
+/* Container styling */
+.projectsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    /* max-width: 1200px; */
+    /* margin: 20px; */
+    position: relative;
+    min-height: 100vh;
+    margin-left: 250px;
+    margin-top: 80px;
+    /* width: calc(100% - 250px); */
+  }
+  
+  /* Header and controls */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .searchInput {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 250px;
+  }
+  
+  .sortButton {
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-color, #4caf50);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .sortButton:hover {
+    background-color: var(--accent-hover, #388e3c);
+  }
+  
+  /* Project List */
+  .projectList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Individual project card */
+  .projectCard {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 1rem;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .projectCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .projectTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .projectDescription {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  /* Buttons */
+  .projectActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .editButton {
+    background-color: #ffa500;
+    color: white;
+  }
+  
+  .deleteButton {
+    background-color: #e53935;
+    color: white;
+  }
+  
+  .editButton,
+  .deleteButton {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .editButton:hover {
+    background-color: #ff8c00;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c62828;
+  }
+  
+ 
+
+/* Full-width elements (like file input) */
+.fullWidth {
+  grid-column: span 2; /* Makes element take full width */
+}
+
+.modalBody {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two inputs per row */
+  gap: 12px; /* Space between inputs */
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.modalContent {
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 12px;
+  width: 700px;
+  max-width: 100%;
+}

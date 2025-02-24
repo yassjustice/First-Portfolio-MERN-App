@@ -8,6 +8,7 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/projectController.js";
+import upload from "../middlewares/upload.js";
 
 const router = express.Router();
 
@@ -20,10 +21,10 @@ router.get("/", authenticate, getProjects);
 router.get("/:id", authenticate, getProjectById);
 
 // POST /api/projects - Create a new project
-router.post("/", authenticate, createProject);
+router.post("/", authenticate, upload.single("image"), createProject);
 
 // PUT /api/projects/:id - Update an existing project
-router.put("/:id", authenticate, updateProject);
+router.put("/:id", authenticate, upload.single("image"), updateProject);
 
 // DELETE /api/projects/:id - Delete a project
 router.delete("/:id", authenticate, deleteProject);

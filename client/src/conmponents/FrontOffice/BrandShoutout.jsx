@@ -19,7 +19,7 @@ const BrandShoutout = ({ position, hideBottom }) => {
       <p>
         Made by <span className={styles.agencyName}>CVitaeDesigns</span>
       </p>
-      <a href="/create-portfolio" className={styles.createLink}>
+      <a href="/backoffice/dashboard" className={styles.createLink}>
         Create your own portfolio page!
       </a>
 

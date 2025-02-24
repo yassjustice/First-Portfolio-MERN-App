@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { formatDate } from "../../utils/formatDate";
 import Card from "../../conmponents/Shared/Card";
-import Sidebar from "../../conmponents/BackOffice/SideBar";
-import Header from "../../conmponents/BackOffice/Header";
 import { getProjects } from "../../services/projectService";
 import { getUserData } from "../../services/userService";
 import AuthContext from "../../context/AuthContext";
 import UserContext from "../../context/UserContext";
-import { useContext } from "react";
+import styles from "./Dashboard.module.css";
 
-const Dashboard = () => {
+const Dashboard = ({ title }) => {
     const { userProfile, setUserProfile } = useContext(UserContext);
     const { user, token, login, logout } = useContext(AuthContext);
 
@@ -21,6 +19,7 @@ const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
+
     // Fetch data for projects and users when the component mounts
     useEffect(() => {
         const fetchData = async () => {
@@ -28,11 +27,13 @@ const Dashboard = () => {
                 setLoading(true);
                 const projectsData = await getProjects(token);
                 const usersData = await getUserData(token);
-                setProjects(projectsData);
-                setUsers(usersData);
-                setLoading(false);
+
+                // Ensure projectsData and usersData are arrays, or default to an empty array
+                setProjects(Array.isArray(projectsData) ? projectsData : []);
+                setUsers(Array.isArray(usersData) ? usersData : []);
             } catch (error) {
                 console.error("Error fetching data", error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -46,61 +47,69 @@ const Dashboard = () => {
 
     // Function to render data or loading states
     const renderCardData = (label, count) => {
-        return count > 0 ? (
+        return count && count > 0 ? (
             <Card
                 title={label}
                 count={count}
                 onClick={() => handleNavigate(label.toLowerCase())}
             />
         ) : (
-            <div>No {label} available.</div>
+            <div>{`No ${label} available.`}</div>
         );
     };
 
     return (
-        <div className="dashboard">
-            <Sidebar />
-            <div className="dashboard-content">
-                <Header title="Dashboard" />
-
-                <div className="dashboard-overview">
+        <div className={styles.dashboard}>
+            <div className={styles.dashboardContent}>
+                <div className={styles.dashboardOverview}>
                     {loading ? (
                         <p>Loading...</p>
                     ) : (
                         <>
                             {renderCardData("Projects", projects.length)}
                             {renderCardData("Users", users.length)}
-                            {/* More stats can be added here as needed */}
                         </>
                     )}
                 </div>
 
-                <div className="dashboard-recent">
-                    <h2>Recent Activity</h2>
-                    <div className="recent-list">
+                <div className={styles.dashboardRecent}>
+                    <h2 className={styles.recentHeader}>Recent Activity</h2>
+                    <div className={styles.recentList}>
                         <div>
                             <h3>Recent Projects</h3>
                             <ul>
-                                {projects.slice(0, 5).map((project) => (
-                                    <li key={project._id}>
-                                        <strong>{project.title}</strong> -
-                                        Created on{" "}
-                                        {formatDate(project.createdAt, "long")}
-                                    </li>
-                                ))}
+                                {Array.isArray(projects) &&
+                                projects.length > 0 ? (
+                                    projects.slice(0, 5).map((project) => (
+                                        <li key={project._id}>
+                                            <strong>{project.title}</strong> -
+                                            Created on{" "}
+                                            {formatDate(
+                                                project.createdAt,
+                                                "long"
+                                            )}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li>No recent projects available.</li>
+                                )}
                             </ul>
                         </div>
 
                         <div>
                             <h3>Recent Users</h3>
                             <ul>
-                                {users.slice(0, 5).map((user) => (
-                                    <li key={user._id}>
-                                        <strong>{user.username}</strong> -
-                                        Joined on{" "}
-                                        {formatDate(user.createdAt, "long")}
-                                    </li>
-                                ))}
+                                {Array.isArray(users) && users.length > 0 ? (
+                                    users.slice(0, 5).map((user) => (
+                                        <li key={user._id}>
+                                            <strong>{user.username}</strong> -
+                                            Joined on{" "}
+                                            {formatDate(user.createdAt, "long")}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li>No recent users available.</li>
+                                )}
                             </ul>
                         </div>
                     </div>

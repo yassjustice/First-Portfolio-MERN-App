@@ -9,7 +9,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         {title && <h2 className={styles.modalTitle}>{title}</h2>}
         <div className={styles.modalBody}>{children}</div>
-        <button className={styles.closeButton} onClick={onClose}>Close</button>
+        <button className={styles.closeButton} onClick={onClose}>X</button>
       </div>
     </div>
   );

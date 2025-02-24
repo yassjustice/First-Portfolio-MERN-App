@@ -12,6 +12,7 @@
     top: 0;
     left: 0;
     transition: all 0.3s ease;
+    z-index: 100;
   }
   
   /* Sidebar - Logo */
@@ -48,6 +49,13 @@
   
   .navItem:hover {
     background-color: var(--card-hover-background);
+  }
+
+  .active {
+    background: var(--accent-color, green); /* Uses your theme accent */
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
   }
   
   /* Dark Mode Styles */
