@@ -122,9 +122,89 @@ export const deleteUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
+        // Delete profile picture from Cloudinary if exists
+        if (user.profilePicture) {
+            const imageUrlParts = user.profilePicture.split("/");
+            const imagePublicId = imageUrlParts[imageUrlParts.length - 1].split(".")[0];
+            await cloudinary.uploader.destroy(`profiles/${imagePublicId}`);
+        }
+
         await user.remove();
-        res.json({ message: "User deleted" });
+        res.json({ message: "User deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get all users (Admin only)
+// @route   GET /api/users
+// @access  Admin
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().select("-password");
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+// @desc    Get user by ID (Admin only)
+// @route   GET /api/users/:id
+// @access  Admin
+export const getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+// @desc    Upload or update profile picture
+// @route   POST /api/users/me/upload
+// @access  Protected
+export const uploadProfilePicture = async (req, res) => {
+    try {
+        console.log("✅ Profile picture upload request received!");
+        console.log("➡ Uploaded file:", req.file || "❌ No file uploaded");
+
+        const user = await User.findById(req.userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!req.file || !req.file.buffer) {
+            return res.status(400).json({ message: "Image is required!" });
+        }
+
+        let imageUrl;
+        try {
+            imageUrl = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload_stream(
+                    { folder: "profile_pictures" },
+                    (error, result) => {
+                        if (error) {
+                            console.error("❌ Cloudinary upload failed:", error);
+                            return reject(new Error("Cloudinary upload failed"));
+                        }
+                        console.log("✅ Image uploaded successfully:", result.secure_url);
+                        resolve(result.secure_url);
+                    }
+                ).end(req.file.buffer);
+            });
+        } catch (uploadError) {
+            return res.status(500).json({ message: "Error uploading image" });
+        }
+
+        user.profilePicture = imageUrl;
+        const updatedUser = await user.save();
+
+        res.json({ message: "Profile picture updated successfully", user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };

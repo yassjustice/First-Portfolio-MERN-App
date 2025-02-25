@@ -20,7 +20,9 @@ const Projects = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState("asc");
     const [modalOpen, setModalOpen] = useState(false);
-    const [viewMode, setViewMode] = useState("grid"); // grid or list
+    const [viewMode, setViewMode] = useState(() => {
+        return localStorage.getItem("viewMode") || "grid";
+    });
     const [newProject, setNewProject] = useState({
         title: "",
         description: "",
@@ -31,7 +33,7 @@ const Projects = () => {
     const [editingProject, setEditingProject] = useState(null);
     const [imageFile, setImageFile] = useState(null);
 
-    // ... Keep existing fetchProjects, handleCreateOrUpdateProject, resetForm, 
+    // ... Keep existing fetchProjects, handleCreateOrUpdateProject, resetForm,
     // handleDeleteProject, handleSearch, handleSort, and related useEffects ...
 
     useEffect(() => {
@@ -57,10 +59,10 @@ const Projects = () => {
         formData.append("description", newProject.description);
         formData.append("githubLink", newProject.githubLink);
         formData.append("demoLink", newProject.demoLink);
-    
+
         // ✅ Fix: Ensure correct array format for tags
-        newProject.tags.forEach(tag => formData.append("tags", tag));
-    
+        newProject.tags.forEach((tag) => formData.append("tags", tag));
+
         // ✅ Fix: Ensure file is appended correctly
         if (imageFile) {
             formData.append("image", imageFile);
@@ -81,7 +83,6 @@ const Projects = () => {
             console.error(err);
         }
     };
-    
 
     const resetForm = () => {
         setModalOpen(false);
@@ -106,25 +107,40 @@ const Projects = () => {
     };
 
     const handleSearch = () => {
-        const filtered = projects.filter(project => 
+        const filtered = projects.filter((project) =>
             project.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredProjects(filtered);
     };
 
     const handleSort = () => {
+        console.log("Sorting triggered! Current order:", sortOrder);
         const sorted = [...filteredProjects].sort((a, b) => {
-            return sortOrder === "asc" 
-                ? a.title.localeCompare(b.title) 
+            return sortOrder === "asc"
+                ? a.title.localeCompare(b.title)
                 : b.title.localeCompare(a.title);
         });
         setFilteredProjects(sorted);
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // Toggle sort order
+    };
+    
+
+    const handleViewModeChange = (mode) => {
+        setViewMode(mode);
+        localStorage.setItem("viewMode", mode);
     };
 
     useEffect(() => {
+        const savedViewMode = localStorage.getItem("viewMode");
+        if (savedViewMode) {
+            setViewMode(savedViewMode);
+        }
+    }, []);
+
+    useEffect(() => {
         handleSearch();
-        handleSort();
-    }, [searchTerm, sortOrder, projects]);
+    }, [searchTerm, projects]);
+    
 
     const ProjectCard = ({ project }) => (
         <Card className={styles.projectCard}>
@@ -137,7 +153,9 @@ const Projects = () => {
             </div>
             <div className={styles.projectContent}>
                 <h3 className={styles.projectTitle}>{project.title}</h3>
-                <p className={styles.projectDescription}>{project.description}</p>
+                <p className={styles.projectDescription}>
+                    {project.description}
+                </p>
                 <div className={styles.tags}>
                     {project.tags.map((tag, index) => (
                         <span key={index} className={styles.tag}>
@@ -237,7 +255,7 @@ const Projects = () => {
                         className={`${styles.viewButton} ${
                             viewMode === "grid" ? styles.active : ""
                         }`}
-                        onClick={() => setViewMode("grid")}
+                        onClick={() => handleViewModeChange("grid")}
                     >
                         <LayoutGrid size={20} />
                     </Button>
@@ -245,7 +263,7 @@ const Projects = () => {
                         className={`${styles.viewButton} ${
                             viewMode === "list" ? styles.active : ""
                         }`}
-                        onClick={() => setViewMode("list")}
+                        onClick={() => handleViewModeChange("list")}
                     >
                         <List size={20} />
                     </Button>
@@ -254,17 +272,21 @@ const Projects = () => {
 
             {error && <p className={styles.error}>{error}</p>}
 
-                <InputField
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search projects..."
-                    className={styles.searchInput}
-                />
+            <InputField
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search projects..."
+                className={styles.searchInput}
+            />
             <div className={styles.controls}>
-                <Button onClick={handleSort} className={styles.sortButton}>
+                <Button
+                    onClick={() => handleSort()}
+                    className={styles.sortButton}
+                >
                     {sortOrder === "asc" ? "Sort Desc" : "Sort Asc"}
                 </Button>
+
                 <Button
                     onClick={() => setModalOpen(true)}
                     className={styles.addButton}
@@ -338,7 +360,9 @@ const Projects = () => {
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => setImageFile(e.target.files[0])}
+                                onChange={(e) =>
+                                    setImageFile(e.target.files[0])
+                                }
                                 className={styles.fullWidth}
                             />
                             <InputField

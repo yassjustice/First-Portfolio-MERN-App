@@ -26,7 +26,11 @@ export const createProject = (projectData) => {
 
 // Update an existing project
 export const updateProject = (projectId, updatedData) => {
-  return api.put(`/projects/${projectId}`, updatedData);
+  return api.put(`/projects/${projectId}`, updatedData, {
+    headers: {
+      "Content-Type": "multipart/form-data", // ✅ Override default JSON header
+    },
+  });
 };
 
 // Delete a project

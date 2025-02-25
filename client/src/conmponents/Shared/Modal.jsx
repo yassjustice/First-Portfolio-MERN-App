@@ -1,5 +1,6 @@
-import React from 'react';
-import styles from './Modal.module.css';
+import React from "react";
+import { X } from "lucide-react";
+import styles from "./Modal.module.css";
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
@@ -7,9 +8,13 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        {title && <h2 className={styles.modalTitle}>{title}</h2>}
+        <div className={styles.modalHeader}>
+          {title && <h2 className={styles.modalTitle}>{title}</h2>}
+          <button className={styles.closeButton} onClick={onClose} aria-label="Close Modal">
+            <X size={24} />
+          </button>
+        </div>
         <div className={styles.modalBody}>{children}</div>
-        <button className={styles.closeButton} onClick={onClose}>X</button>
       </div>
     </div>
   );

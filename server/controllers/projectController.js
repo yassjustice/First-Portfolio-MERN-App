@@ -96,37 +96,68 @@ export const createProject = async (req, res) => {
 // @desc    Update a project
 // @route   PUT /api/projects/:id
 // @access  Protected
+
 export const updateProject = async (req, res) => {
   try {
+    console.log("✅ Update request received!");
+    console.log("➡ Headers:", req.headers);
+    console.log("➡ Request body:", req.body);
+    console.log("➡ Uploaded file:", req.file || "❌ No file uploaded");
+
     const project = await Project.findById(req.params.id);
     if (!project) {
+      console.error("❌ Project not found!");
       return res.status(404).json({ message: "Project not found" });
     }
 
     let imageUrl = project.image;
-    if (req.file) {
-      const result = await cloudinary.uploader.upload_stream(
-        { folder: "projects" },
-        (error, result) => {
-          if (error) return res.status(500).json({ message: error.message });
-          imageUrl = result.secure_url;
-        }
-      ).end(req.file.buffer);
+
+    // ✅ Upload new image to Cloudinary if a new file is provided
+    if (req.file && req.file.buffer) {
+      try {
+        imageUrl = await new Promise((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { folder: "projects" },
+            (error, result) => {
+              if (error) {
+                console.error("❌ Cloudinary upload failed:", error);
+                return reject(new Error("Cloudinary upload failed"));
+              }
+              console.log("✅ Image uploaded successfully:", result.secure_url);
+              resolve(result.secure_url);
+            }
+          ).end(req.file.buffer);
+        });
+      } catch (uploadError) {
+        console.error("❌ Error uploading image:", uploadError);
+        return res.status(500).json({ message: "Error uploading image" });
+      }
     }
+
+    // ✅ Ensure `tags` is properly handled as an array
+    const tagsArray = Array.isArray(req.body.tags)
+      ? req.body.tags
+      : req.body.tags?.split(",").map(tag => tag.trim()) || project.tags;
+
+    console.log("✅ Updating project in database...");
 
     project.title = req.body.title || project.title;
     project.description = req.body.description || project.description;
     project.image = imageUrl;
-    project.tags = req.body.tags || project.tags;
+    project.tags = tagsArray;
     project.githubLink = req.body.githubLink || project.githubLink;
     project.demoLink = req.body.demoLink || project.demoLink;
 
     const updatedProject = await project.save();
+
+    console.log("✅ Project updated successfully:", updatedProject);
     res.json(updatedProject);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("❌ Error in updateProject:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // @desc    Delete a project
 // @route   DELETE /api/projects/:id
@@ -135,17 +166,21 @@ export const deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ success: false, message: "Project not found" });
     }
 
+    // Delete associated image from Cloudinary if exists
     if (project.image) {
-      const imagePublicId = project.image.split("/").pop().split(".")[0]; // Extract public_id
+      const imageUrlParts = project.image.split("/");
+      const imagePublicId = imageUrlParts[imageUrlParts.length - 1].split(".")[0]; // Extract public_id safely
       await cloudinary.uploader.destroy(`projects/${imagePublicId}`);
     }
 
-    await project.remove();
-    res.json({ message: "Project removed" });
+    await Project.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ success: true, message: "Project deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
+
